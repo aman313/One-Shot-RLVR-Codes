@@ -7,12 +7,12 @@ export VLLM_ATTENTION_BACKEND=XFORMERS
 
 python3 -m verl.trainer.main_ppo \
  algorithm.adv_estimator=grpo \
- data.train_files=data/train/one_shot_rlvr/pi1_r128.parquet \
- data.val_files=data/test/math500.parquet \
+ data.train_files=data/train/one_shot_rlvr/spyder_sub.parquet \
+ data.val_files=data/test/spyder_syn.parquet \
  data.train_batch_size=128 \
  data.val_batch_size=530 \
- data.max_prompt_length=1024 \
- data.max_response_length=3072 \
+ data.max_prompt_length=6000 \
+ data.max_response_length=2192 \
  reward_model.reward_manager='naive' \
  actor_rollout_ref.model.path='seeklhy/codes-1b' \
  actor_rollout_ref.actor.optim.lr=1e-6 \
@@ -39,10 +39,10 @@ python3 -m verl.trainer.main_ppo \
  trainer.critic_warmup=0 \
  trainer.logger=['console','wandb'] \
  trainer.project_name='verl_few_shot'\
- trainer.experiment_name='Qwen2.5-Math-1.5B-pi1_r128'\
+ trainer.experiment_name='codes-1b-spider_sub'\
  trainer.checkpoints_dir=$CHECKPOINTS_DIR \
  +trainer.val_before_train=True \
- trainer.n_gpus_per_node=8 \
+ trainer.n_gpus_per_node=1 \
  trainer.nnodes=1 \
  trainer.save_freq=20 \
  trainer.test_freq=20 \
