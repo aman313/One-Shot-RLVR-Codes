@@ -40,7 +40,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(local_model_path, trust_remote_code=True)
     actor_model_config = AutoConfig.from_pretrained(local_model_path, trust_remote_code=True)
     with torch.device("cuda"):
-        actor_model = AutoModelForCausalLM.from_pretrained(local_model_path, trust_remote_code=True)
+        actor_model = AutoModelForCausalLM.from_pretrained(local_model_path, trust_remote_code=True, use_safetensors=True)
         actor_model.to(torch.bfloat16)
 
     max_prompt_length = 16

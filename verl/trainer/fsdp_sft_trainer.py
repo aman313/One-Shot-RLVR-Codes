@@ -211,6 +211,7 @@ class FSDPSFTTrainer(object):
                                                                                config=config,
                                                                                torch_dtype=torch.float32,
                                                                                attn_implementation='flash_attention_2',
+                                                                               use_safetensors=True,
                                                                                trust_remote_code=trust_remote_code)
 
             # Apply Liger kernel if use_liger is enabled

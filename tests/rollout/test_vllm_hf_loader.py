@@ -97,7 +97,7 @@ def test_vllm_with_hf():
     input_ids = pad_sequence_to_length(input_ids, max_prompt_length, tokenizer.pad_token_id, left_pad=True)
     attention_mask = pad_sequence_to_length(attention_mask, max_prompt_length, 0, left_pad=True)
 
-    actor_model = AutoModelForCausalLM.from_pretrained(local_model_path)
+    actor_model = AutoModelForCausalLM.from_pretrained(local_model_path, use_safetensors=True)
     actor_model.to(torch.bfloat16)
 
     actor_model_config = AutoConfig.from_pretrained(local_model_path)
