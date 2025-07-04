@@ -59,6 +59,7 @@ class NaiveRewardManager:
             data_source = data_item.non_tensor_batch['data_source']
 
             extra_info = data_item.non_tensor_batch.get('extra_info', {})
+            print(f'keys in non_tensor_batch: {data_item.non_tensor_batch.keys()}')
             extra_info['prompt'] = data_item.non_tensor_batch['prompt'][0]['content']
             score = self.compute_score(
                 data_source=data_source,
