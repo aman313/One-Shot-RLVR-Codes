@@ -32,7 +32,7 @@ def extract_solution(solution_str, method='strict', prompt=None):
 
     # the solution_str starts with the prompt and the remaining is the solution
     if prompt is not None:
-        return solution_str.lower().strip().split(prompt.lower())[1].strip()
+        return solution_str.lower().strip().split(prompt.lower())[1].strip().split(';')[0].strip()
     else:
         return solution_str.lower().strip()
 
