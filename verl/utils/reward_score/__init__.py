@@ -34,6 +34,7 @@ def _default_compute_score(data_source, solution_str, ground_truth, extra_info=N
         from . import deepscaler
         res = deepscaler.compute_score("", solution_str, ground_truth, extra_info, use_think=True)
     elif data_source in ['text2sql_spider']:
+        print(f'compute score for {data_source} with solution_str: {solution_str} and ground_truth: {ground_truth}')
         from . import spider
         res = spider.compute_score(solution_str, ground_truth)
     else:
