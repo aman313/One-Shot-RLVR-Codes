@@ -109,7 +109,7 @@ def main_task(config, compute_score=None):
         raise NotImplementedError
 
     # if config.actor_rollout_ref.model.path.strip().startswith("Qwen") or config.actor_rollout_ref.model.path.strip().startswith("meta-llama"):
-    if config.actor_rollout_ref.model.path.strip().startswith("Qwen") or 'llama' in config.actor_rollout_ref.model.path.lower() or config.actor_rollout_ref.model.use_think == False:
+    if config.actor_rollout_ref.model.path.strip().startswith("Qwen") or 'llama' in config.actor_rollout_ref.model.path.lower() :#or config.actor_rollout_ref.model.use_think == False:
         print("\nQwen or LLAMA---------------------------------\n")
         compute_score = deepscaler.compute_score
         
