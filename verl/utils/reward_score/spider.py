@@ -27,14 +27,16 @@ def sort_select_list(tree: exp.Expression) -> exp.Expression:
         )
     return tree
 
-def extract_solution(solution_str, method='strict'):
+def extract_solution(solution_str, method='strict', prompt=None):
     assert method in ['strict', 'flexible']
 
-    # get last line of the solution_str
-    return solution_str.strip().split('\n')[-1].strip()
+    # the solution_str starts with the prompt and the remaining is the solution
+    if prompt is not None:
+        return solution_str.strip().split(prompt)[1].strip()
+    else:
+        return solution_str.strip()
 
-
-def compute_score(solution_str, ground_truth, method='strict', format_score=0., score=1.):
+def compute_score(solution_str, ground_truth, extra_info, method='strict', format_score=0., score=1.):
     """The scoring function for GSM8k.
 
     Reference: Trung, Luong, et al. "Reft: Reasoning with reinforced fine-tuning." Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers). 2024.
@@ -46,7 +48,7 @@ def compute_score(solution_str, ground_truth, method='strict', format_score=0., 
         format_score: the score for the format
         score: the score for the correct answer
     """
-    answer = extract_solution(solution_str=solution_str, method=method)
+    answer = extract_solution(solution_str=solution_str, method=method, prompt=extra_info.get('prompt', None))
     try:
         answer_tree = parse_one(answer)
         ground_truth_tree = parse_one(ground_truth)
