@@ -30,7 +30,8 @@ def sort_select_list(tree: exp.Expression) -> exp.Expression:
 def extract_solution(solution_str, method='strict'):
     assert method in ['strict', 'flexible']
 
-    return solution_str.strip()
+    # get last line of the solution_str
+    return solution_str.strip().split('\n')[-1].strip()
 
 
 def compute_score(solution_str, ground_truth, method='strict', format_score=0., score=1.):
