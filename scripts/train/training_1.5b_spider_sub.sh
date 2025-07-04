@@ -39,7 +39,7 @@ python3 -m verl.trainer.main_ppo \
  algorithm.kl_ctrl.kl_coef=0.001 \
  trainer.critic_warmup=0 \
  trainer.logger=['console','wandb'] \
- trainer.project_name='verl_few_shot'\
+ trainer.project_name='codeS-RL'\
  trainer.experiment_name='codes-1b-spider_sub'\
  trainer.checkpoints_dir=$CHECKPOINTS_DIR \
  +trainer.val_before_train=True \
