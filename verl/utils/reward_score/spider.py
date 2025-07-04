@@ -62,7 +62,7 @@ def compute_score(solution_str, ground_truth, extra_info, method='strict', forma
             print(f'diff, score is {format_score}')
             return format_score
     except Exception as e:
-        print(f'error, score is {e}##{answer}##{ground_truth}')
+        print(f'error, score is {e}##{answer}##{ground_truth}##{extra_info.get("prompt", None)}')
         return format_score
     
 
