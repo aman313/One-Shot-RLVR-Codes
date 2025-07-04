@@ -69,7 +69,8 @@ class RLHFDataset(Dataset):
                  cache_dir='~/.cache/verl/rlhf',
                  chat_template_func=None,
                  return_raw_chat=False,
-                 truncation='error'):
+                 truncation='error',
+                 use_chat_template=True):
         if not isinstance(parquet_files, (List, ListConfig)):
             parquet_files = [parquet_files]
 
@@ -85,7 +86,7 @@ class RLHFDataset(Dataset):
         self.return_raw_chat = return_raw_chat
         self.chat_template_func = chat_template_func
         self.truncation = truncation
-
+        self.use_chat_template = use_chat_template
         # whether to store the dataset in state_dict()
         # default not store
         self.serialize_dataset = False
@@ -111,8 +112,14 @@ class RLHFDataset(Dataset):
         # filter out too long prompts
         tokenizer = self.tokenizer
         prompt_key = self.prompt_key
-        self.dataframe = self.dataframe[self.dataframe.apply(lambda doc: len(
-            tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True)) <= self.max_prompt_length,
+        if self.use_chat_template:
+            self.dataframe = self.dataframe[self.dataframe.apply(lambda doc: len(
+                tokenizer.apply_chat_template(doc[prompt_key], add_generation_prompt=True)) <= self.max_prompt_length,
+                                                             axis=1)]
+        else:
+            #print(f'use_chat_template is False, tokenize the prompt: {self.dataframe[prompt_key][0]}')
+            self.dataframe = self.dataframe[self.dataframe.apply(lambda doc: len(
+                tokenizer.tokenize(doc[prompt_key][0]['content'])) <= self.max_prompt_length,
                                                              axis=1)]
 
         print(f'filter dataset len: {len(self.dataframe)}')
@@ -137,7 +144,10 @@ class RLHFDataset(Dataset):
 
         chat = row_dict.pop(self.prompt_key)
 
-        prompt_with_chat_template = self.tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=False)
+        if self.use_chat_template:
+            prompt_with_chat_template = self.tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=False)
+        else:
+            prompt_with_chat_template = chat[0]['content']
 
         input_ids, attention_mask = verl_F.tokenize_and_postprocess_data(prompt=prompt_with_chat_template,
                                                                          tokenizer=self.tokenizer,

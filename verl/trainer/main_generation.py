@@ -93,15 +93,23 @@ def main(config):
             repeated_chat_lst = []
             for chat in batch_chat_lst:
                 repeated_chat_lst.extend([chat] * config.data.n_samples)
-            
-            inputs = tokenizer.apply_chat_template(repeated_chat_lst,
-                                                 add_generation_prompt=True,
-                                                 padding=True,
-                                                 truncation=True,
-                                                 max_length=config.rollout.prompt_length,
-                                                 return_tensors='pt',
-                                                 return_dict=True,
-                                                 tokenize=True)
+            if config.data.use_chat_template:
+                inputs = tokenizer.apply_chat_template(repeated_chat_lst,
+                                                    add_generation_prompt=True,
+                                                    padding=True,
+                                                    truncation=True,
+                                                    max_length=config.rollout.prompt_length,
+                                                    return_tensors='pt',
+                                                    return_dict=True,
+                                                    tokenize=True)
+            else:
+                inputs = tokenizer([chat[0]['content'] for chat in repeated_chat_lst],
+                    padding=True,
+                    truncation=True,
+                    max_length=config.rollout.prompt_length,
+                    return_tensors='pt',
+                    return_dict=True,
+                    tokenize=True)
             
             input_ids = inputs['input_ids']
             attention_mask = inputs['attention_mask']

@@ -485,7 +485,8 @@ class RayPPOTrainer(object):
                                          max_prompt_length=self.config.data.max_prompt_length,
                                          filter_prompts=True,
                                          return_raw_chat=self.config.data.get('return_raw_chat', False),
-                                         truncation='error')
+                                         truncation='error',
+                                         use_chat_template=self.config.data.use_chat_template)
 
         print("Train_dataset size", len(self.train_dataset))
 
@@ -509,7 +510,8 @@ class RayPPOTrainer(object):
                                     max_prompt_length=self.config.data.max_prompt_length,
                                     filter_prompts=True,
                                     return_raw_chat=self.config.data.get('return_raw_chat', False),
-                                    truncation='error')
+                                    truncation='error', 
+                                    use_chat_template=self.config.data.use_chat_template)
         self.val_dataloader = DataLoader(dataset=self.val_dataset,
                                         batch_size=len(self.val_dataset),
                                         shuffle=True,
