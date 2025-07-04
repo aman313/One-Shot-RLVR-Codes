@@ -147,7 +147,8 @@ class RLHFDataset(Dataset):
         if self.use_chat_template:
             prompt_with_chat_template = self.tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=False)
         else:
-            prompt_with_chat_template = chat[0]['content']
+            # temporary hack for text2sql
+            prompt_with_chat_template = chat[0]['content'].replace('database schema :', 'database prompt :')
 
         input_ids, attention_mask = verl_F.tokenize_and_postprocess_data(prompt=prompt_with_chat_template,
                                                                          tokenizer=self.tokenizer,
