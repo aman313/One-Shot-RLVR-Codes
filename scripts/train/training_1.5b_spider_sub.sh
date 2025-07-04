@@ -8,7 +8,7 @@ export VLLM_ATTENTION_BACKEND=XFORMERS
 python3 -m verl.trainer.main_ppo \
  algorithm.adv_estimator=grpo \
  data.train_files=data/train/one_shot_rlvr/spyder_sub.parquet \
- data.val_files=data/test/spyder_syn.parquet \
+ data.val_files=data/train/one_shot_rlvr/spyder_syn.parquet \
  data.train_batch_size=10 \
  data.val_batch_size=5 \
  data.max_prompt_length=1024 \
@@ -18,7 +18,7 @@ python3 -m verl.trainer.main_ppo \
  actor_rollout_ref.model.path='seeklhy/codes-1b' \
  actor_rollout_ref.actor.optim.lr=1e-6 \
  actor_rollout_ref.model.use_remove_padding=True \
- actor_rollout_ref.actor.ppo_mini_batch_size=128 \
+ actor_rollout_ref.actor.ppo_mini_batch_size=1 \
  actor_rollout_ref.actor.use_dynamic_bsz=True \
  actor_rollout_ref.actor.ppo_max_token_len_per_gpu=4096 \
  actor_rollout_ref.actor.use_kl_loss=True \
