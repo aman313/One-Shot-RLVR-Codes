@@ -34,6 +34,7 @@ install_requires = [
   'pybind11',
   'pylatexenc',
   'ray>=2.10',
+  'sqlglot[rs]',
   'tensordict<0.6',
   'transformers',
   'vllm<=0.6.3.post1',
